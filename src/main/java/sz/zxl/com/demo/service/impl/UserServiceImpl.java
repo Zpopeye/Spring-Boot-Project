@@ -1,0 +1,51 @@
+package sz.zxl.com.demo.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sz.zxl.com.demo.dao.UsersMapper;
+import sz.zxl.com.demo.pojo.Users;
+import sz.zxl.com.demo.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	UsersMapper um;
+	
+	@Override
+	public Users findUser(Users user) {
+		return um.findUser(user);
+	}
+
+	@Override
+	public int deleteByPrimaryKey(Integer userid) {
+		return 0;
+	}
+
+	@Override
+	public int insert(Users record) {
+		return 0;
+	}
+
+	@Override
+	public int insertSelective(Users record) {
+		return 0;
+	}
+
+	@Override
+	public Users selectByPrimaryKey(Integer userid) {
+		return null;
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Users record) {
+		return 0;
+	}
+
+	@Override
+	public int updateByPrimaryKey(Users record) {
+		return 0;
+	}
+
+}

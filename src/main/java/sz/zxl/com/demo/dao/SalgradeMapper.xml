@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sz.zxl.com.demo.dao.SalgradeMapper" >
+  <resultMap id="BaseResultMap" type="sz.zxl.com.demo.pojo.Salgrade" >
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="losal" property="losal" jdbcType="REAL" />
+    <result column="hisal" property="hisal" jdbcType="REAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    grade, losal, hisal
+  </sql>
+  
+  <insert id="insert" parameterType="sz.zxl.com.demo.pojo.Salgrade" >
+    insert into salgrade (grade, losal, hisal
+      )
+    values (#{grade,jdbcType=INTEGER}, #{losal,jdbcType=REAL}, #{hisal,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="sz.zxl.com.demo.pojo.Salgrade" >
+    insert into salgrade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="losal != null" >
+        losal,
+      </if>
+      <if test="hisal != null" >
+        hisal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="losal != null" >
+        #{losal,jdbcType=REAL},
+      </if>
+      <if test="hisal != null" >
+        #{hisal,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>这里是登入页面</h1>
+	<!-- th:text="${name}" 可以将div里面的文本内容设置为...-->
+	<div th:text="${name}">这里不经过模板引擎显示</div>
+	<div th:text="${age}"></div>	<!-- text 会转义特殊字符 -->
+	<div th:utext="${age}"></div>	<!-- utext不转义特殊字符;本意显示  -->
+	<hr/>
+	<h4 th:each="user:${users}" th:text="${user}"></h4> <hr/>
+	<h4>
+		<span th:each="user:${users}"> [[${user}]] </span>
+	</h4>
+</body>
+</html>

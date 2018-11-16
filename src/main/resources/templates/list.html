@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>员工管理系统  主页</title>
+		<!-- Bootstrap core CSS -->
+		<!-- <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+		<link href="asserts/css/dashboard.css" rel="stylesheet"> -->
+		<script type="text/javascript" src="asserts/js/jquery-1.12.4.js"></script>
+		<link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+		<script type="text/javascript">
+			 $(function(){
+			  //这里有八哥....
+				/* var msg = $("#msg").val();
+				console.log("msg啥:"+msg)
+				if(msg!=null||msg!=""){
+					alert(msg);
+				}  */
+				
+				//跳转页面
+				$("#bid").click(function(){
+					var page = $("#numberid").val();
+					gopage(page);
+				})
+			})	 
+			
+		//分页请求
+			function gopage(pageNum){
+				var pages = $("#pages").val();
+				if(pageNum<=0){
+					alert("现在已经是第一页了!");
+				}else if(pageNum>pages){
+					alert("现在已经是最后一页了!");
+				}else{
+					location.href="/sbp/findemps?pageNum="+pageNum;
+				}
+			}
+		
+		</script>
+	</head>
+
+	<body>
+		<!-- 引入抽取的topbar -->
+		<!-- dashboard::引入模板名:会使用thymeleaf的前后缀配置规则进行解析  替换可以不写 ~{} -->
+		<!-- 引入顶部栏topbar -->
+		<div th:replace="bar::topbar"></div>
+		<input type="hidden" id="msg" th:value="${msg}" th:if="${not #strings.isEmpty(msg)}"/>
+		<div class="container-fluid">
+			<!-- 显示数据 -->
+			<div class="row">
+				<!-- id选择器引入 侧边栏:sidebar -->
+				<div th:replace="bar::#sidebar(activeUri='findemps')"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<h2>员工信息</h2>
+					<div class="table-responsive">
+						<a class="btn btn-sm btn-success" style="width:80px;" href="emp" th:href="@{/emp}">增加</a>
+						<table class="table table-striped table-sm">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>员工姓名</th>
+									<th>职位</th>
+									<th>所属领导</th>
+									<th>入职时间</th>
+									<th>工资</th>
+									<th>奖金</th>
+									<th>工资等级</th>
+									<th>部门编号</th>
+									<th>部门名称</th>
+									<th>来源城市</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="emp:${page.list}">
+									<td th:text="${emp.empno}"></td>
+									<td>[[${emp.ename}]]</td><!-- 行内写法 -->
+									<td th:text="${emp.job}"></td>
+									<td th:text="${emp.mgr}"></td>
+									<td th:text="${#dates.format(emp.hiredate, 'yyyy-MM-dd')}"></td>
+									<td th:text="${emp.sal}"></td>
+									<td th:text="${emp.comm}"></td>
+									<td th:text="${emp.salgrade.grade}"></td>
+									<td th:text="${emp.dept.deptno}"></td>
+									<td th:text="${emp.dept.dname}"></td>
+									<td th:text="${emp.dept.loc}"></td>
+									<td>
+										<button class="btn btn-sm btn-primary">编辑</button>
+										<button class="btn btn-sm btn-danger">删除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="table-responsive">
+						<span style="font-size: 16px; color: gray"><b>总记录数数:[[${page.total}]]条    现在是第[[${page.pageNum}]]页  一共分[[${page.pages}]]页</b></span>
+						<input type="hidden" id="pages" name="pages" th:value="${page.pages}" />
+						<span style="margin-left: 250px;">
+							<button onclick="gopage(1);">首页</button>
+							<button th:onclick="'gopage('+${page.pageNum-1}+');'">上一页</button>
+							<button th:onclick="'gopage('+${page.pageNum+1}+');'">下一页</button>
+							<button th:onclick="'gopage('+${page.pages}+');'" >末页</button>
+						</span>
+						<input type="number" id="numberid" style="width: 50px;" th:min="1" th:max="${page.pages}" th:value="${page.pageNum}" />
+						<button type="button" class="btn btn-sm btn-success" id="bid">跳转</button>
+					</div>
+				</main>
+			</div>
+		</div><br/><br/><br/>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+	<!-- 	<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script> -->
+		<script type="text/javascript" src="asserts/js/popper.min.js"></script>
+		<script type="text/javascript" src="asserts/js/bootstrap.min.js"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="asserts/js/feather.min.js"></script>
+		<script>
+			feather.replace()
+		</script>
+
+	</body>
+
+</html>

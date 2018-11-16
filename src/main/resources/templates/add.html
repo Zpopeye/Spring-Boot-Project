@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Dashboard Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<!-- <link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+		<link href="asserts/css/dashboard.css" rel="stylesheet"> -->
+		<script type="text/javascript" src="asserts/js/jquery-1.12.4.js"></script>
+		<!-- <script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script> -->
+		<link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function(){
+				var msg = $("#msg").val();
+				if(msg!=null&&msg!=""){
+					alert(msg);
+				}
+			})	
+		</script>
+	</head>
+
+	<body>
+		<!-- 引入抽取的topbar -->
+		<!-- dashboard::引入模板名:会使用thymeleaf的前后缀配置规则进行解析  替换可以不写 ~{} -->
+		<!-- 引入顶部栏topbar -->
+		<div th:replace="bar::topbar"></div>
+		<input type="hidden" id="msg" th:text="${msg}"/>
+		<div class="container-fluid">
+			<!-- 显示数据 -->
+			<div class="row">
+				<!-- id选择器引入 侧边栏:sidebar -->
+				<div th:replace="bar::#sidebar(activeUri='findemps')"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<form th:action="@{/addemp}" method="post">
+					  <div class="form-group">
+					    <label for="exampleFormControlInput1">员工姓名</label>
+					    <input type="text" name="ename" class="form-control" id="exampleFormControlInput1" >
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleFormControlSelect1">员工职位</label>
+					    <select class="form-control" name="job" id="exampleFormControlSelect1">
+					      <option th:each="j:${jobs}" th:value="${j.job}" th:text="${j.job}"></option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleFormControlSelect1">所属领导</label>
+					    <select class="form-control" name="mgr" id="exampleFormControlSelect1">
+					      <option th:each="emp:${mgrs}" th:value="${emp.empno }" >[[${emp.ename}]]</option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleFormControlInput1">入职日期</label>
+					    <input type="date" name="hiredate" class="form-control" id="exampleFormControlInput1" >
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleFormControlInput1">员工工资</label>
+					    <input type="text" name="sal" class="form-control" id="exampleFormControlInput1">
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleFormControlSelect1">所属部门</label>
+					    <select class="form-control" name="dept.deptno" id="exampleFormControlSelect1">
+					      <option th:each="dept:${depts}" th:text="${dept.dname}" th:value="${dept.deptno}" ></option>
+					    </select>
+					  </div>
+					  
+					  <button type="submit" class="btn btn-primary" >添加</button>
+					</form>
+				</main>
+			</div>
+		</div><br/><br/><br/>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!-- <script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script> -->
+		<script type="text/javascript" src="asserts/js/popper.min.js"></script>
+		<script type="text/javascript" src="asserts/js/bootstrap.min.js"></script>
+
+		
+
+	</body>
+
+</html>
