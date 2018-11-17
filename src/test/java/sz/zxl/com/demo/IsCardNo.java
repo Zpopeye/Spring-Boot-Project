@@ -12,5 +12,8 @@ public class IsCardNo {
 		Map map = JSON.parseObject(stu);  
 		System.out.println(((Map)map.get("resp")).get("code"));
 		
+		String str = "{\"return_code\":\"00000\",\"order_id\":\"ALY1542427163524458429\"}";
+		Map m = JSON.parseObject(str); 
+		System.out.println("结果:"+m.get("return_code"));
 	}
 }

@@ -1,7 +1,5 @@
 package sz.zxl.com.demo.utils;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -34,6 +33,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
 
 public class HttpUtils {
 	
@@ -76,7 +76,52 @@ public class HttpUtils {
 	    }
 	    return stu;
 	}
-	
+	//生成手机验证码
+	/*手机查询的信息:{"Message":"OK","RequestId":"022B10B3-9D18-4871-AE81-1319D64485BA",
+	"BizId":"535818442422300976^0","Code":"OK"}
+	发送返回的信息:{"return_code":"00000","order_id":"ALY1542427163524458429"}
+	 */
+	public static String checkMessage(String phoneNum){
+		/**
+		 * 随机数生成手机验证码
+		 */
+		String str = "";
+		int messageCode = new Random().nextInt(9000)+1000;
+		str = String.valueOf(messageCode);
+
+		String host = "http://dingxin.market.alicloudapi.com";
+		String path = "/dx/sendSms";
+		String method = "POST";
+		String appcode = "099882db34354a0bb0650cb1542dbb7d";
+		Map<String, String> headers = new HashMap<String, String>();
+		//最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+		headers.put("Authorization", "APPCODE " + appcode);
+		Map<String, String> querys = new HashMap<String, String>();
+		querys.put("mobile", phoneNum);
+		querys.put("param", "code:"+str);
+		querys.put("tpl_id", "TP1711063");
+		Map<String, String> bodys = new HashMap<String, String>();
+
+		try {
+			/**
+			 * 重要提示如下:
+			 * HttpUtils请从
+			 * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+			 * 下载
+			 *手机啥:{"Message":"OK","RequestId":"022B10B3-9D18-4871-AE81-1319D64485BA","BizId":"535818442422300976^0","Code":"OK"}
+			 * 相应的依赖请参照
+			 * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+			 */
+			HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
+			System.out.println(response.toString());
+			//获取response的body
+			//System.out.println(EntityUtils.toString(response.getEntity()));
+			return str;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
 	
 	/**
 	 * get

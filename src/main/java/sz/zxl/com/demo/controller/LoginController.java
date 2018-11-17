@@ -49,7 +49,7 @@ public class LoginController {
 	@Autowired
 	private HatAreaService has;
 	
-	//增加:
+	//明明是修改:
 	@RequestMapping("/addUser")
 	public String addUsers(Users user,String p,String c,String a,String d) {
 		System.out.println("进来增加页面:User:"+user+"--省份:"+p+"--城市:"+c+"--区县a:"+a+"--街道:"+d);
@@ -81,7 +81,6 @@ public class LoginController {
 	//显示验证码，把验证码放入session中
 	@RequestMapping("/code.action")
 	public void showCode(HttpSession session,HttpServletResponse response) throws IOException {
-		
 		String code = GraphicHelper.createCode();
 		response.setContentType("image/jpg");
 		final int width = 150; // 图片宽度
@@ -159,7 +158,33 @@ public class LoginController {
 		return num;
 	}
 	
-	//验证码
+	//手机短信验证
+	@RequestMapping("/checkphone")
+	@ResponseBody
+	public String checkPhone(String phoneNum,HttpSession session) {
+		System.out.println("页面传送的手机号码:"+phoneNum);
+		String str = HttpUtils.checkMessage(phoneNum);
+		/*Map map = JSON.parseObject(stu);
+		System.out.println("转换成map集合:"+map);
+		String num = (String) map.get("return_code");*/
+		session.setAttribute("str", str);
+		System.out.println("随机数:"+str);
+		return str;
+	}
+	//验证手机验证码
+	@RequestMapping("/isphonecode")
+	@ResponseBody
+	public String isPhoneCode(String code,HttpSession session) {
+		System.out.println("页面输入的手机验证码:"+code);
+		String str = (String) session.getAttribute("str");
+		if (str.equals(code)||str==code) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+	
+	
 	
 	
 	/*@PostMapping(value="/login")
