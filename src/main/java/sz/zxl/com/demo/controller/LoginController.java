@@ -49,6 +49,21 @@ public class LoginController {
 	@Autowired
 	private HatAreaService has;
 	
+	//增加:
+	@RequestMapping("/addUser")
+	public String addUsers(Users user,String p,String c,String a,String d) {
+		System.out.println("进来增加页面:User:"+user+"--省份:"+p+"--城市:"+c+"--区县a:"+a+"--街道:"+d);
+		user.setUseraddress(p+c+a+d);
+		us.updateByPrimaryKeySelective(user);
+		return "dashboard";
+	}
+	/**
+	 * 登入
+	 * @param user
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String login(Users user,Model model,HttpSession session) {
 		System.out.println("登入好不好...");

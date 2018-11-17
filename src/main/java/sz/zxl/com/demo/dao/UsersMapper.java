@@ -15,6 +15,11 @@ public interface UsersMapper {
 
     int insert(Users record);
 
+    /**
+     * 动态增加
+     * @param record
+     * @return
+     */
     int insertSelective(Users record);
 
     Users selectByPrimaryKey(Integer userid);

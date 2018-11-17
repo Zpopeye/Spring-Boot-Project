@@ -28,19 +28,25 @@ public class UserServiceImpl implements UserService {
 		return 0;
 	}
 
+	/**
+	 * 动态增加
+	 */
 	@Override
 	public int insertSelective(Users record) {
-		return 0;
+		return um.insertSelective(record);
 	}
 
 	@Override
 	public Users selectByPrimaryKey(Integer userid) {
 		return null;
 	}
-
+	
+	/**
+	 * 动态修改
+	 */
 	@Override
 	public int updateByPrimaryKeySelective(Users record) {
-		return 0;
+		return um.updateByPrimaryKeySelective(record);
 	}
 
 	@Override

@@ -48,7 +48,11 @@
 	//改变省份查询城市
 	$("#province").change(function(){
 		console.log($(this).val());
-		 $.post("showcity",{"provinceid":$(this).val()},function(res){
+		console.log("省份:"+$("#province option:checked").text());
+		var p = $("#province option:checked").text();
+		//选择城市
+		$("#p").val(p);
+		$.post("showcity",{"provinceid":$(this).val()},function(res){
 			console.log(res);
 			$("#city option:gt(0)").remove();
 			$("#area option:gt(0)").remove();
@@ -60,6 +64,10 @@
 	//改变城市查询区县
 	$("#city").change(function(){
 		console.log($(this).val());
+		var c = $("#city option:checked").text();
+		$("#c").val(c);
+		//设置城市
+		console.log("城市:"+$("#p").val())
 		$.ajax({
 			type:"POST",
 			url:"showarea",
@@ -75,7 +83,19 @@
 		});
 	})
 	
-	//验证省份证
+	//区县获取
+	$("#area").change(function(){
+		var a = $("#area option:checked").text();
+		console.log("区县:"+a);
+		$("#a").val(a);
+	})
+	//详细地址:
+	$("#detail").change(function(){
+		var d = $("#detail").val();
+		console.log("区县:"+d);
+		$("#d").val(d);
+	})	
+	//验证深份证
 	$("#usercard").blur(function(){
 		console.log($(this).val());
 		var card = $(this).val();
@@ -110,6 +130,10 @@
 			})
 		}
 	});
+	//验证手机提示信息失效
+	$("#usercard").focus(function(){
+		$("#cardmsg").html(" ");
+	})
 	
 	//验证邮箱
 	$("#email").blur(function(){
@@ -127,6 +151,10 @@
 			$("#emailmsg").html("√邮箱牛批!!!").attr("style","color:green");
 			return true;
 		}
+	})
+	//邮箱提示信息失效
+	$("#email").focus(function(){
+		$("#emailmsg").html(" ");
 	})
 	
 	//手机验证
@@ -147,14 +175,17 @@
 		}
 		
 	})
+	//验证手机提示信息失效
+	$("#phone").focus(function(){
+		$("#phonemsg").html(" ");
+	})
 	
-	//验证码:th:onclick="this.src='@{/code.action}?' + 'Math.random()'" 
+	//验证码 
 	 $("#CreateCheckCode").click(function(){
-		/* location.href="/sbp/code.action?pageNum="+Math.random(); */
 		$("#CreateCheckCode").attr("src","/sbp/code.action?pageNum="+Math.random());
 	})
 	
-	//校验验证码======>session中一致保存第一次的值;刷新之后不会改变???????????????????
+	//校验验证码======>session中一致保存第一次的值;刷新之后不会改变>>后台验证
 	$("#checkCode").blur(function(){
 		var code = $("#checkCode").val();
 		console.log("获取输入的验证码:"+code);
@@ -175,8 +206,20 @@
 			})
 		}
 	})
-			
-			
+	
+	//清除验证码提示信息失效
+	$("#checkCode").focus(function(){
+		$("#codemsg").html(" ");
+	})
+	
+	//设置当前时间
+	setInterval(function(){$("#nowdata").html("当前时间  "+new Date().toLocaleString())},1000);
+	//邮箱提示信息失效
+	$("#email").focus(function(){
+		$("#emailmsg").html(" ");
+	})
+
+	
 });
 	
 </script>
@@ -195,12 +238,20 @@
 				<div th:replace="bar::#sidebar(activeUri='userau')"></div>
 				
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<h2>用户信息管理</h2><hr/>
-				<form>
+				<h2 style="position: relative;">用户信息管理 </h2><span id="nowdata" style="color: red;font-size:14px; position: absolute; right: 90px;top:5px;"></span>
+				<hr/>
+				<form th:action="@{/addUser}" th:method="post">
+					<!-- 地址隐藏域 -->
+					<input type="hidden" name="p" id="p">
+					<input type="hidden" name="c" id="c">
+					<input type="hidden" name="a" id="a">
+					<input type="hidden" name="d" id="d">
+					<input type="hidden" id="userid" name="userid" th:value="${session.user.userid}"/></h4></td>
+						
 					<table class="table">
 						<tr>
 							<td class="c"><h4>姓名:</h4></td>
-							<td><h4><input type="text" id="username" name="username" th:value="${session.user.nickname}"/></h4></td>
+							<td><h4><input type="text" id="nickname" name="nickname" th:value="${session.user.nickname}"/></h4></td>
 						</tr>
 						<tr>
 							<td class="c"><h4>身份证:</h4></td>
@@ -224,7 +275,7 @@
 							<td class="c"><h4>手机号码:</h4></td>
 							<td>
 							<h4>
-								<input type="text" name="phone" id="phone" placeholder="请输入手机号码"/>
+								<input type="text" name="userphone" id="phone" placeholder="请输入手机号码"/>
 								<span id="phonemsg" style="color:break; font-size: 16px"></span>
 							</h4>
 							</td>
@@ -262,7 +313,7 @@
 									<select name="area" id="area">
 										<option value="0">--请选择县区--</option>
 									</select>
-									<input type="text" name="adress"/>
+									<input type="text" name="detail" id="detail"/>
 								</h5>
 							</td>
 						</tr>
