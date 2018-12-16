@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HelloWrold {
 
-	/*//设置默认访问页面
+	//设置默认访问页面
 	@RequestMapping({"/","index.html"})
 	public String index() {
 		return "index";
-	}*/
+	}
 	/*@ResponseBody
     @RequestMapping("/hello")
     public String hello(){
