@@ -1,26 +1,12 @@
 package sz.zxl.com.demo.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.http.HttpResponse;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
-
 import sz.zxl.com.demo.pojo.HatArea;
 import sz.zxl.com.demo.pojo.HatCity;
 import sz.zxl.com.demo.pojo.HatProvince;
@@ -31,6 +17,15 @@ import sz.zxl.com.demo.service.HatProvinceService;
 import sz.zxl.com.demo.service.UserService;
 import sz.zxl.com.demo.utils.GraphicHelper;
 import sz.zxl.com.demo.utils.HttpUtils;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * StringUtils 注意导包 org.springframework.util.StringUtils;
