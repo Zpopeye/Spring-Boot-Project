@@ -16,7 +16,7 @@ public final class GraphicHelper {
 	 *            图片的高度
 	 * @param imgType
 	 *            图片的类型
-	 * @param output
+	 * @param code
 	 *            图片的输出流(图片将输出到这个流中)
 	 * @return 返回所生成的验证码(字符串)
 	 */
